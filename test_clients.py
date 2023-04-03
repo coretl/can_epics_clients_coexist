@@ -8,7 +8,7 @@ def check_value(value):
     assert value == 3.141, "Not right"
 
 
-async def test_ca():
+async def test_aioca():
     # aioca uses epicscorelibs
     from aioca import caget, purge_channel_caches
 
@@ -44,11 +44,11 @@ def test_pyepics():
 def epicscorelibs_last_works():
     test_pyepics()
     test_pvapy()
-    asyncio.run(test_ca())
+    asyncio.run(test_aioca())
     test_p4p()    
 
 def pyepics_epicscorelibs_works():
-    asyncio.run(test_ca())
+    asyncio.run(test_aioca())
     test_p4p()    
     # This import tells pyepics to use epicscorelibs version of libca
     import epicscorelibs.path.pyepics
@@ -57,15 +57,16 @@ def pyepics_epicscorelibs_works():
 def pyepics_epicscorelibs_first_fails():
     import epicscorelibs.path.pyepics
     test_pyepics()
-    asyncio.run(test_ca())
+    asyncio.run(test_aioca())
     test_p4p()    
     # Runs through, but fails on exit:
+    # double free or corruption (!prev)
     # Thread 1 "python" received signal SIGSEGV, Segmentation fault.
     # 0x00007fffd9277300 in epicsMutexLock ()
     #     from /dls/science/users/tmc43/repos/can_epics_clients_coexist/venv/lib64/python3.9/site-packages/epicscorelibs/lib/./libCom.so.7.0.7.99.0
 
 def pyepics_last_fails():
-    asyncio.run(test_ca())
+    asyncio.run(test_aioca())
     test_p4p()    
     test_pyepics()    
     # Runs through, but fails on exit
@@ -82,7 +83,7 @@ def pyepics_last_fails():
     #9  0x000055555555475e in _start ()
 
 def pvapy_last_fails():
-    asyncio.run(test_ca())
+    asyncio.run(test_aioca())
     test_p4p()    
     test_pvapy()
     # Gets half way through
@@ -114,5 +115,5 @@ if __name__ == "__main__":
         #epicscorelibs_last_works()
         #pyepics_epicscorelibs_works()
         #pyepics_epicscorelibs_first_fails()
-        #pyepics_last_fails()
+        pyepics_last_fails()
         #pvapy_last_fails()
