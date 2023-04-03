@@ -1,0 +1,6 @@
+record(ao, "TEST-EPICS-CLIENTS") {
+    field(PREC, "3")
+    field(PINI, "YES")
+    field(EGU,  "mm")
+    field(VAL, "3.141")
+}
