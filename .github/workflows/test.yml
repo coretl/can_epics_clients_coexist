@@ -26,7 +26,9 @@ jobs:
       
       - run: |
           sudo apt-get install gdb
-          pip install ${{ matrix.test }}
+          echo 'core' | sudo tee /proc/sys/kernel/core_pattern
           ulimit -c unlimited -S
-          python test_clients.py ${{ matrix.test }} || gdb -c core* python -ex "thread apply all bt" -ex "set pagination 0" -ex "info proc mappings" -ex "info reg" -ex "disassemble" -ex 'print /x * (int*) $rsp' -batch
+          pip install ${{ matrix.test }}
+          python test_clients.py ${{ matrix.test }} || ls 
+          #gdb -c core* python -ex "thread apply all bt" -ex "set pagination 0" -ex "info proc mappings" -ex "info reg" -ex "disassemble" -ex 'print /x * (int*) $rsp' -batch
 
