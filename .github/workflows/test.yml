@@ -23,12 +23,10 @@ jobs:
         uses: actions/setup-python@v2
         with:
           python-version: ${{ matrix.python-version }}
+
+      - if: ${{ matrix.os }} == "ubuntu-latest"
+        run: sudo apt-get install gdb
       
-      - run: |
-          sudo apt-get install gdb
-          echo 'core' | sudo tee /proc/sys/kernel/core_pattern
-          ulimit -c unlimited -S
-          pip install ${{ matrix.test }}
-          python test_clients.py ${{ matrix.test }} || ls 
-          #gdb -c core* python -ex "thread apply all bt" -ex "set pagination 0" -ex "info proc mappings" -ex "info reg" -ex "disassemble" -ex 'print /x * (int*) $rsp' -batch
+      - run: pip install ${{ matrix.test }}
+      - run: gdb python -ex "test_clients.py ${{ matrix.test }}" -ex "thread apply all bt" -ex "set pagination 0" -ex "info proc mappings" -ex "info reg" -ex "disassemble" -ex 'print /x * (int*) $rsp' -batch
 
