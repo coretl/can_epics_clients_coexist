@@ -28,7 +28,9 @@ jobs:
         run: sudo apt-get install gdb
 
       - if: matrix.os == 'macos-latest'
-        run: brew install gdb
+        run: |
+          curl -s https://raw.githubusercontent.com/conda-forge/gdb-feedstock/main/recipe/macos-codesign/macos-setup-codesign.sh | bash
+          brew install gdb
 
       - shell: bash
         run: |
