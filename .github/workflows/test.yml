@@ -24,5 +24,10 @@ jobs:
         with:
           python-version: ${{ matrix.python-version }}
       
-      - run: pip install ${{ matrix.test }}
-      - run: python test_clients.py ${{ matrix.test }}
+      - run: |
+          pip install ${{ matrix.test }}
+          ulimit -c unlimited -S
+          python test_clients.py ${{ matrix.test }}
+          COREFILE=$(find . -maxdepth 1 -name "core*" | head -n 1)
+          if [[ -f "$COREFILE" ]]; then gdb -c "$COREFILE" python -ex "thread apply all bt" -ex "set pagination 0" -ex "info reg" -ex "disassemble" -ex 'print /x * (int*) $rsp' -batch; fi
+
