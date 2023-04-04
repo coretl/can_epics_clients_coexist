@@ -10,7 +10,7 @@ jobs:
         test:
           - pyepics pvapy aioca p4p
           - aioca p4p epicscorelibs pyepics
-          - pyepics epicscorelibs aioca p4p
+          - epicscorelibs pyepics aioca p4p
           - aioca p4p pyepics
           - aioca p4p pvapy
 
@@ -26,9 +26,6 @@ jobs:
 
       - if: matrix.os == 'ubuntu-latest'
         run: sudo apt-get install gdb
-
-      - if: matrix.os == 'macos-latest'
-        run: brew install gdb
 
       - shell: bash
         run: |
