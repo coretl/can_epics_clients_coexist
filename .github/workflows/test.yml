@@ -25,6 +25,7 @@ jobs:
           python-version: ${{ matrix.python-version }}
       
       - run: |
+          sudo apt-get install gdb
           pip install ${{ matrix.test }}
           ulimit -c unlimited -S
           python test_clients.py ${{ matrix.test }} || gdb -c core* python -ex "thread apply all bt" -ex "set pagination 0" -ex "info proc mappings" -ex "info reg" -ex "disassemble" -ex 'print /x * (int*) $rsp' -batch
