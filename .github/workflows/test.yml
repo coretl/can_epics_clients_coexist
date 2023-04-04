@@ -27,6 +27,9 @@ jobs:
       - if: matrix.os == 'ubuntu-latest'
         run: sudo apt-get install gdb
 
+      - if: matrix.os == 'macos-latest'
+        run: brew install gdb
+
       - shell: bash
         run: |
           pip install ${{ matrix.test }}
