@@ -11,20 +11,22 @@ source venv/bin/activate
 pip install epicscorelibs pyepics aioca pvapy p4p
 ```
 
-# Run the ioc
-```bash
-python -m epicscorelibs.ioc -d record.db
-```
-
 # Run the tests
-Uncomment *one* of the tests in the `__main__` section of `test_clients.py`, then:
+Run a combination of:
+- aioca - CA using epicscorelibs
+- p4p - PVA using epicscorelibs
+- pvapy - PVA bundled
+- pyepics - CA bundled
+- epicscorelibs - to make pyepics use epicscorelibs instead of bundled libs
+
+Pass them in order to the test script, it will run up an IOC then do the imports in that order and do 5 gets in turn from each client
 ```bash
-python test_clients.py
+python test_clients.py aioca p4p pvapy
 ```
 
 # Get the backtrace
 If looking at a failing test can get backtrace under gdb:
 ```bash
 gdb python
-run test_clients.py
+run test_clients.py aioca p4p pvapy
 ```
