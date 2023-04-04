@@ -26,7 +26,12 @@ jobs:
 
       - if: ${{ matrix.os }} == "ubuntu-latest"
         run: sudo apt-get install gdb
-      
-      - run: pip install ${{ matrix.test }}
-      - run: gdb python -ex "test_clients.py ${{ matrix.test }}" -ex "thread apply all bt" -ex "set pagination 0" -ex "info proc mappings" -ex "info reg" -ex "disassemble" -ex 'print /x * (int*) $rsp' -batch
+
+      - if: ${{ matrix.os }} == "macos-latest"
+        run: brew install gdb
+
+      - shell: bash
+        run: |
+          pip install ${{ matrix.test }}
+          gdb python -ex "run test_clients.py ${{ matrix.test }}" -ex "thread apply all bt" -ex "set pagination 0" -ex "info proc mappings" -ex "info reg" -ex "disassemble" -ex 'print /x * (int*) $rsp' -batch
 
