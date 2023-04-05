@@ -1,8 +1,5 @@
 import asyncio
-import subprocess
 import sys
-import time
-from pathlib import Path
 
 
 pv = "TEST-EPICS-CLIENTS"
@@ -11,19 +8,6 @@ pv = "TEST-EPICS-CLIENTS"
 def check_value(value, lib):
     print(f"Got {value} using {lib}")
     assert value == 3.141, "Not right"
-
-
-def start_ioc_subprocess() -> subprocess.Popen:
-    here = Path(__file__).absolute().parent
-    args = [sys.executable, "-m", "epicscorelibs.ioc", "-d", str(here/"record.db")]
-    process = subprocess.Popen(
-        args,
-        stdin=subprocess.PIPE,
-        stdout=subprocess.PIPE,
-        stderr=subprocess.STDOUT,
-        universal_newlines=True,
-    )
-    return process
 
 
 def test_aioca():
@@ -66,8 +50,6 @@ def test_epicscorelibs():
 
 
 if __name__ == "__main__":
-    process = start_ioc_subprocess()
     for i in range(5):
         for cmd in sys.argv[1:]:
             globals()[f"test_{cmd}"]()
-    process.communicate("exit")
