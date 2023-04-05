@@ -13,8 +13,8 @@ def check_value(value, lib):
 def test_aioca():
     async def aioca_get():
         from aioca import caget, purge_channel_caches, _catools
-        import atexit
-        atexit.unregister(_catools._catools_atexit)
+        # import atexit
+        # atexit.unregister(_catools._catools_atexit)
 
         value = await caget(pv)
         check_value(value, "aioca")
@@ -40,7 +40,10 @@ def test_pvapy():
 
 
 def test_pyepics():
-    from epics import caget
+    from epics import caget, ca
+
+    import atexit
+    atexit.unregister(ca.finalize_libca)
 
     value = caget(pv)
     check_value(value, "pyepics")    
