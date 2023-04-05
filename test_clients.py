@@ -1,6 +1,7 @@
 import asyncio
 import subprocess
 import sys
+import time
 from pathlib import Path
 
 
@@ -22,6 +23,8 @@ def start_ioc_subprocess() -> subprocess.Popen:
         stderr=subprocess.STDOUT,
         universal_newlines=True,
     )
+    # Wait for a bit to make sure it's up
+    time.sleep(5)
     return process
 
 
