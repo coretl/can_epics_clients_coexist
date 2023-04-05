@@ -12,7 +12,9 @@ def check_value(value, lib):
 
 def test_aioca():
     async def aioca_get():
-        from aioca import caget, purge_channel_caches
+        from aioca import caget, purge_channel_caches, _catools
+        import atexit
+        atexit.unregister(_catools._catools_atexit)
 
         value = await caget(pv)
         check_value(value, "aioca")
