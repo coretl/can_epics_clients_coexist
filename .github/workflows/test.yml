@@ -9,6 +9,8 @@ jobs:
         test:
           - pyepics
           - epicscorelibs pyepics
+          - epicscorelibs pyepics p4p
+          - aioca p4p
           - pvapy
           - pyepics pvapy aioca p4p
           - aioca p4p epicscorelibs pyepics
