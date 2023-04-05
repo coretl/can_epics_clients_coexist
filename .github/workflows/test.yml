@@ -8,6 +8,7 @@ jobs:
         os: ["ubuntu-latest", "windows-latest"]
         test:
           - pyepics
+          - epicscorelibs pyepics
           - pvapy
           - pyepics pvapy aioca p4p
           - aioca p4p epicscorelibs pyepics

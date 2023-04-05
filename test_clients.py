@@ -23,8 +23,6 @@ def start_ioc_subprocess() -> subprocess.Popen:
         stderr=subprocess.STDOUT,
         universal_newlines=True,
     )
-    # Wait for a bit to make sure it's up
-    time.sleep(30)
     return process
 
 
