@@ -10,8 +10,10 @@ jobs:
           - pvapy
           - pyepics pvapy
           - pyepics pvapy aioca p4p
-          - aioca p4p epicscorelibs pyepics
           - epicscorelibs pyepics aioca p4p
+          - epicscorelibs pyepics aioca p4p pvapy
+          - epicscorelibs pyepics pvapy aioca p4p
+          - aioca p4p epicscorelibs pyepics
           - aioca p4p pyepics
           - aioca p4p pvapy
 
