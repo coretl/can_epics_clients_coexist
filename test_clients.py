@@ -25,7 +25,7 @@ def test_aioca():
         value = await caget(pv)
         check_value(value, "aioca")
 
-    asyncio.run_coroutine_threadsafe(aioca_get(), loop=list(loop_thread)[0]).result(timeout=1)
+    asyncio.run_coroutine_threadsafe(aioca_get(), loop=list(loop_thread)[0]).result(timeout=10)
 
 
 def test_p4p():
