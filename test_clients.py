@@ -1,6 +1,6 @@
 import asyncio
 import sys
-
+import threading
 
 pv = "TEST-EPICS-CLIENTS"
 
@@ -10,17 +10,22 @@ def check_value(value, lib):
     assert value == 3.141, "Not right"
 
 
+loop_thread = {}
+
 def test_aioca():
+    if not loop_thread:
+        lp = asyncio.new_event_loop()
+        th = threading.Thread(target=lp.run_forever, daemon=True, name="loop")
+        th.start()
+        loop_thread[lp] = th
+
     async def aioca_get():
-        from aioca import caget, purge_channel_caches, _catools
-        import atexit
-        atexit.unregister(_catools._catools_atexit)
+        from aioca import caget
 
         value = await caget(pv)
         check_value(value, "aioca")
-        purge_channel_caches()
 
-    asyncio.run(aioca_get())
+    asyncio.run_coroutine_threadsafe(aioca_get(), loop=list(loop_thread)[0]).result(timeout=1)
 
 
 def test_p4p():
@@ -40,14 +45,11 @@ def test_pvapy():
 
 
 def test_pyepics():
-    from epics import caget, ca
-
-    #import atexit
-    #atexit.unregister(ca.finalize_libca)
+    from epics import caget
 
     value = caget(pv)
-    check_value(value, "pyepics")    
-
+    check_value(value, "pyepics")
+    
 
 def test_epicscorelibs():
     # not actually testing epicscorelibs, but setting the path for pyepics
